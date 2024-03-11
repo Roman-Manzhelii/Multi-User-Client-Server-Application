@@ -17,6 +17,15 @@ public class Player
         this.position = playerPosition;
     }
 
+    public Player(String playerName, int playerAge, String playerTeam, String playerPosition)
+    {
+        this.id = 0;
+        this.name = playerName;
+        this.age = playerAge;
+        this.team = playerTeam;
+        this.position = playerPosition;
+    }
+
     public int getId() {
         return id;
     }

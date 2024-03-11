@@ -7,5 +7,6 @@ import java.util.List;
 public interface PlayerDaoInterface
 {
     List<Player> getAllPlayers() throws DaoException;
+    Player insertPlayer(Player p) throws DaoException;
 }
 
