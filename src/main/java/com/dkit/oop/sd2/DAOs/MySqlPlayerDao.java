@@ -112,5 +112,90 @@ public class MySqlPlayerDao extends MySqlDao implements PlayerDaoInterface
 
         return p;
     }
+
+
+    /** Main author: Roman Manzhelii
+     */
+    @Override
+    public Player updatePlayer(int id, Player p) throws DaoException {
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+
+        try {
+            connection = this.getConnection();
+
+            String query = "UPDATE player SET name = ?, age = ?, team = ?, position = ? WHERE id = ?";
+            preparedStatement = connection.prepareStatement(query);
+
+            // Set the parameters for the Player
+            preparedStatement.setString(1, p.getName());
+            preparedStatement.setInt(2, p.getAge());
+            preparedStatement.setString(3, p.getTeam());
+            preparedStatement.setString(4, p.getPosition());
+            preparedStatement.setInt(5, id);
+
+            int affectedRows = preparedStatement.executeUpdate();
+
+            if (affectedRows == 0) {
+                throw new DaoException("Updating player failed, no rows affected.");
+            }
+
+            p.setId(id);
+
+
+        } catch (SQLException e) {
+            throw new DaoException("updatePlayer() " + e.getMessage());
+        } finally {
+            try {
+                if (preparedStatement != null) preparedStatement.close();
+                if (connection != null) freeConnection(connection);
+            } catch (SQLException e) {
+                throw new DaoException("updatePlayer() " + e.getMessage());
+            }
+        }
+        return p;
+    }
+
+
+    /** Main author: Roman Manzhelii
+     */
+    @Override
+    public boolean exists(int id) throws DaoException {
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+        boolean exists = false;
+
+        try {
+            connection = this.getConnection();
+            String query = "SELECT id FROM player WHERE id = ?";
+            preparedStatement = connection.prepareStatement(query);
+            preparedStatement.setInt(1, id);
+
+            resultSet = preparedStatement.executeQuery();
+            exists = resultSet.next();
+
+        } catch (SQLException e) {
+            throw new DaoException("exists() " + e.getMessage());
+        } finally {
+            try {
+                if (resultSet != null) {
+                    resultSet.close();
+                }
+                if (preparedStatement != null) {
+                    preparedStatement.close();
+                }
+                if (connection != null) {
+                    freeConnection(connection);
+                }
+            } catch (SQLException e) {
+                throw new DaoException("exists() finally " + e.getMessage());
+            }
+        }
+        return exists;
+    }
+
 }
+
+
 

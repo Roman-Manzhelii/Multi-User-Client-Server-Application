@@ -8,5 +8,7 @@ public interface PlayerDaoInterface
 {
     List<Player> getAllPlayers() throws DaoException;
     Player insertPlayer(Player p) throws DaoException;
+    Player updatePlayer(int id, Player p) throws DaoException;
+    boolean exists(int id) throws DaoException;
 }
 
