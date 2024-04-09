@@ -15,10 +15,11 @@ public class App {
         while (true) {
             System.out.println("\n*** Player Management System ***");
             System.out.println("1. View All Players");
-            System.out.println("2. Insert a Player");
-            System.out.println("3. Update a Player by ID");
-            System.out.println("4. Delete a Player by ID");
-            System.out.println("5. Exit");
+            System.out.println("2. Find Player by ID");
+            System.out.println("3. Delete Player by ID");
+            System.out.println("4. Insert a Player");
+            System.out.println("5. Update a Player by ID");
+            System.out.println("6. Exit");
             System.out.print("Enter choice: ");
 
             int choice = scanner.nextInt();
@@ -39,7 +40,41 @@ public class App {
                         e.printStackTrace();
                     }
                     break;
-                case 2:
+                    case 2:
+                    // Find a player by ID
+                    try {
+                        System.out.println("Enter Player ID to find: ");
+                        int playerIdToFind = scanner.nextInt();
+                        Player foundPlayer = IPlayerDao.findPlayerById(playerIdToFind);
+                        if (foundPlayer != null) {
+                            System.out.println("Player found: " + foundPlayer.toString());
+                        } else {
+                            System.out.println("Player with ID " + playerIdToFind + " not found.");
+                        }
+                    } catch (DaoException e) {
+                        e.printStackTrace();
+                    }
+                    break;
+                case 3:
+                    // Delete a player by ID
+                    try {
+                        scanner.nextLine();
+
+                        System.out.println("Enter Player ID to Delete: ");
+                        int playerIdToDelete = scanner.nextInt();
+
+                        if (!IPlayerDao.exists(playerIdToDelete)) {
+                            System.out.println("Player with ID " + playerIdToDelete + " does not exist. Returning to the main menu.");
+                            break;
+                        }
+
+                        IPlayerDao.deletePlayer(playerIdToDelete);
+                        System.out.println("Player with ID " + playerIdToDelete + " deleted successfully!");
+                    } catch (DaoException e) {
+                        System.out.println("An error occurred: " + e.getMessage());
+                    }
+                    break;
+                case 4:
                     // Insert a new player
                     try {
                         scanner.nextLine(); // Clearing the input buffer
@@ -65,8 +100,7 @@ public class App {
                         e.printStackTrace();
                     }
                     break;
-                case 3:
-                    // Update a player by ID
+                case 5:
                     try {
                         scanner.nextLine();
 
@@ -100,32 +134,13 @@ public class App {
                         System.out.println("An error occurred: " + e.getMessage());
                     }
                     break;
-                case 4:
-                    // Delete a player by ID
-                    try {
-                        scanner.nextLine();
-
-                        System.out.println("Enter Player ID to Delete: ");
-                        int playerIdToDelete = scanner.nextInt();
-
-                        if (!IPlayerDao.exists(playerIdToDelete)) {
-                            System.out.println("Player with ID " + playerIdToDelete + " does not exist. Returning to the main menu.");
-                            break;
-                        }
-
-                        IPlayerDao.deletePlayer(playerIdToDelete);
-                        System.out.println("Player with ID " + playerIdToDelete + " deleted successfully!");
-                    } catch (DaoException e) {
-                        System.out.println("An error occurred: " + e.getMessage());
-                    }
-                    break;
-                case 5:
+                case 6:
                     // Exit
                     System.out.println("Exiting...");
                     scanner.close();
                     return;
                 default:
-                    System.out.println("Invalid choice, please enter 1, 2, 3, 4, or 5.");
+                    System.out.println("Invalid choice, please enter 1, 2, 3, 4, 5 or 6.");
                     break;
             }
         }

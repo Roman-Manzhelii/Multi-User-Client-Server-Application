@@ -63,6 +63,47 @@ public class MySqlPlayerDao extends MySqlDao implements PlayerDaoInterface
         return playersList;     // may be empty
     }
 
+    /** Main author: Mila Annita Chuenglin*/
+    @Override
+    public Player findPlayerById(int id) throws DaoException {
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+        Player player = null;
+
+        try {
+            connection = this.getConnection();
+
+            String query = "SELECT * FROM player WHERE id = ?";
+            preparedStatement = connection.prepareStatement(query);
+            preparedStatement.setInt(1, id);
+
+            resultSet = preparedStatement.executeQuery();
+        
+            if (resultSet.next()) {
+                int playerId = resultSet.getInt("id");
+                String playerName = resultSet.getString("name");
+                int age = resultSet.getInt("age");
+                String team = resultSet.getString("team");
+                String position  = resultSet.getString("position");
+                player = new Player(playerId, playerName, age, team, position);
+            } else {
+                throw new DaoException("Player with ID " + id + " not found.");
+            }
+    
+        } catch (SQLException e) {
+            throw new DaoException("findPlayerById() " + e.getMessage());
+        } finally {
+            try {
+                if (preparedStatement != null) preparedStatement.close();
+                if (connection != null) freeConnection(connection);
+            } catch (SQLException e) {
+                throw new DaoException("findPlayerById() " + e.getMessage());
+            }
+        }
+        return player;
+    }
+
     /** Main author: Elga Jerusha Henry
      */
     @Override
