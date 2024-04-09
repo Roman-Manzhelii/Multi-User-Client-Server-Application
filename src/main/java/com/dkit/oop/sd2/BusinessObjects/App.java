@@ -17,7 +17,8 @@ public class App {
             System.out.println("1. View All Players");
             System.out.println("2. Insert a Player");
             System.out.println("3. Update a Player by ID");
-            System.out.println("4. Exit");
+            System.out.println("4. Delete a Player by ID");
+            System.out.println("5. Exit");
             System.out.print("Enter choice: ");
 
             int choice = scanner.nextInt();
@@ -65,6 +66,7 @@ public class App {
                     }
                     break;
                 case 3:
+                    // Update a player by ID
                     try {
                         scanner.nextLine();
 
@@ -98,14 +100,32 @@ public class App {
                         System.out.println("An error occurred: " + e.getMessage());
                     }
                     break;
-
                 case 4:
+                    // Delete a player by ID
+                    try {
+                        scanner.nextLine();
+
+                        System.out.println("Enter Player ID to Delete: ");
+                        int playerIdToDelete = scanner.nextInt();
+
+                        if (!IPlayerDao.exists(playerIdToDelete)) {
+                            System.out.println("Player with ID " + playerIdToDelete + " does not exist. Returning to the main menu.");
+                            break;
+                        }
+
+                        IPlayerDao.deletePlayer(playerIdToDelete);
+                        System.out.println("Player with ID " + playerIdToDelete + " deleted successfully!");
+                    } catch (DaoException e) {
+                        System.out.println("An error occurred: " + e.getMessage());
+                    }
+                    break;
+                case 5:
                     // Exit
                     System.out.println("Exiting...");
                     scanner.close();
                     return;
                 default:
-                    System.out.println("Invalid choice, please enter 1, 2, 3, or 4.");
+                    System.out.println("Invalid choice, please enter 1, 2, 3, 4, or 5.");
                     break;
             }
         }
