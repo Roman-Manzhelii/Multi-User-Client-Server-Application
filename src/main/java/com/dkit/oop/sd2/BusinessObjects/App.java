@@ -55,6 +55,25 @@ public class App {
                         e.printStackTrace();
                     }
                     break;
+                case 3:
+                    // Delete a player by ID
+                    try {
+                        scanner.nextLine();
+
+                        System.out.println("Enter Player ID to Delete: ");
+                        int playerIdToDelete = scanner.nextInt();
+
+                        if (!IPlayerDao.exists(playerIdToDelete)) {
+                            System.out.println("Player with ID " + playerIdToDelete + " does not exist. Returning to the main menu.");
+                            break;
+                        }
+
+                        IPlayerDao.deletePlayer(playerIdToDelete);
+                        System.out.println("Player with ID " + playerIdToDelete + " deleted successfully!");
+                    } catch (DaoException e) {
+                        System.out.println("An error occurred: " + e.getMessage());
+                    }
+                    break;
                 case 4:
                     // Insert a new player
                     try {
@@ -115,7 +134,6 @@ public class App {
                         System.out.println("An error occurred: " + e.getMessage());
                     }
                     break;
-
                 case 6:
                     // Exit
                     System.out.println("Exiting...");
