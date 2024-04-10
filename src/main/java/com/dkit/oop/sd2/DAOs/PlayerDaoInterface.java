@@ -9,7 +9,7 @@ public interface PlayerDaoInterface
     List<Player> getAllPlayers() throws DaoException; // feature 1 (Roman)
     Player findPlayerById(int id) throws DaoException; // feature 2 (Mila)
     
-    public Player deletePlayer(int id) throws DaoException;
+    public Player deletePlayer(int id) throws DaoException; // feature 3 (Elga)
     Player insertPlayer(Player p) throws DaoException; // feature 4 (Roman)
     Player updatePlayer(int id, Player p) throws DaoException; // feature 5 (Roman)
     boolean exists(int id) throws DaoException;
