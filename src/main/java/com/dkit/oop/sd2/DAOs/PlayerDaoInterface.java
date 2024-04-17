@@ -17,4 +17,3 @@ public interface PlayerDaoInterface
     List<Player> findPlayersUsingFilter(Comparator<Player> comparator) throws DaoException; // feature 6 (Elga)
     boolean exists(int id) throws DaoException;
 }
-
