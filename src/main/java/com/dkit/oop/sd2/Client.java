@@ -35,6 +35,7 @@ public class Client {
                 scanner.nextLine();
 
                 switch(option) {
+                    /** Main author: Annita Mila Chuenglin */
                     case 1:
                         System.out.println("Enter the entity ID to display: ");
                         int entityId = scanner.nextInt();
@@ -43,9 +44,13 @@ public class Client {
                         String response = in.readLine();
                         System.out.println("In client: The server response was : " + response);
                         break;
+                    /** Main author: Annita Mila Chuenglin */
                     case 2:
-                        System.out.println("Exiting.");
-                        return;
+                        System.out.println("Displaying all entities.");
+                        out.println("displayAllEntities");
+                        response = in.readLine();
+                        System.out.println("In client: The server response was : " + response);
+                        break;
                     case 3:
                         System.out.println("Exiting..");
                         return;

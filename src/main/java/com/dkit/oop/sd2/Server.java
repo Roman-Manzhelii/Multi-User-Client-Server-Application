@@ -5,6 +5,8 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.List;
+
 import com.dkit.oop.sd2.DAOs.MySqlPlayerDao;
 import com.dkit.oop.sd2.DTOs.Player;
 import com.dkit.oop.sd2.Exceptions.DaoException;
@@ -43,12 +45,20 @@ public class Server {
             System.out.println("The server is replying to the client.");
 
             String[] request = message.split(" ");
+            /** Main author: Annita Mila Chuenglin */
             if(request[0].equals("displayEntityById")) {
                 int entityId = Integer.parseInt(request[1]);
                 Player player = playerDao.findPlayerById(entityId);
                 String jsonPlayer = jsonConverter.playerToJson(player);
                 out.println(jsonPlayer);
-            } else {
+            }
+            /** Main author: Annita Mila Chuenglin */
+            else if(request[0].equals("displayAllEntities")) {
+                List<Player> allPlayersList = playerDao.getAllPlayers();
+                String allPlayers = jsonConverter.playersListToJson(allPlayersList);
+                out.println(allPlayers);
+            }
+            else {
                 out.println("Unrecognised input");
             }
 
