@@ -4,6 +4,10 @@ import com.dkit.oop.sd2.DAOs.MySqlPlayerDao;
 import com.dkit.oop.sd2.DAOs.PlayerDaoInterface;
 import com.dkit.oop.sd2.DTOs.Player;
 import com.dkit.oop.sd2.Exceptions.DaoException;
+import com.dkit.oop.sd2.Exceptions.PlayerAgeComparator;
+
+import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Scanner;
 
@@ -19,7 +23,8 @@ public class App {
             System.out.println("3. Delete Player by ID");
             System.out.println("4. Insert a Player");
             System.out.println("5. Update a Player by ID");
-            System.out.println("6. Exit");
+            System.out.println("6. Compare Players by Age");
+            System.out.println("7. Exit");
             System.out.print("Enter choice: ");
 
             int choice = scanner.nextInt();
@@ -135,12 +140,45 @@ public class App {
                     }
                     break;
                 case 6:
+                    // Filter players by age
+                    try {
+                        System.out.println("Enter the age to filter players: ");
+                        int ageToFilter = scanner.nextInt();
+
+                        List<Player> allPlayers = IPlayerDao.getAllPlayers();
+                        List<Player> filteredPlayers = new ArrayList<>();
+
+                        for (Player player : allPlayers) {
+                            if (player.getAge() == ageToFilter) {
+                                filteredPlayers.add(player);
+                            }
+                        }
+
+                        if (filteredPlayers.isEmpty()) {
+                            System.out.println("No players found with the specified age.");
+                        } else {
+                            System.out.println("Filtered Players:");
+                            for (Player player : filteredPlayers) {
+                                System.out.println("Player: " + player.toString());
+                            }
+                        }
+                    } catch (DaoException e) {
+                        e.printStackTrace();
+                    }
+                    break;
+
+
+
+
+
+                case 7:
                     // Exit
                     System.out.println("Exiting...");
                     scanner.close();
                     return;
+
                 default:
-                    System.out.println("Invalid choice, please enter 1, 2, 3, 4, 5 or 6.");
+                    System.out.println("Invalid choice, please enter a valid option.");
                     break;
             }
         }

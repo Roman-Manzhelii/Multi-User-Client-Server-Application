@@ -5,6 +5,7 @@ import com.dkit.oop.sd2.Exceptions.DaoException;
 
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
 public class MySqlPlayerDao extends MySqlDao implements PlayerDaoInterface
@@ -239,6 +240,16 @@ public class MySqlPlayerDao extends MySqlDao implements PlayerDaoInterface
             }
         }
         return p;
+    }
+
+    @Override
+    public List<Player> findPlayersUsingFilter(Comparator<Player> comparator) throws DaoException
+    {
+        List<Player> allPlayers = getAllPlayers();
+        List<Player> filteredPlayers = new ArrayList<>(allPlayers);
+        filteredPlayers.sort(comparator);
+
+        return filteredPlayers;
     }
 
 
