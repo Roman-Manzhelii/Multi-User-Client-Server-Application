@@ -14,4 +14,3 @@ public interface PlayerDaoInterface
     Player updatePlayer(int id, Player p) throws DaoException; // feature 5 (Roman)
     boolean exists(int id) throws DaoException;
 }
-
