@@ -242,6 +242,8 @@ public class MySqlPlayerDao extends MySqlDao implements PlayerDaoInterface
         return p;
     }
 
+    /** Main author: Elga Jerusha Henry
+     */
     @Override
     public List<Player> findPlayersUsingFilter(Comparator<Player> comparator) throws DaoException
     {
