@@ -31,7 +31,7 @@ public class Client {
                 System.out.println("3. Add an Entity");
                 System.out.println("4. Delete an Entity by Id");
                 System.out.println("5. Get Images List");
-                System.out.println("6. Exit");
+                System.out.println("6. Exit Server");
                 System.out.print("Enter option: ");
 
                 int option = scanner.nextInt();
@@ -87,9 +87,12 @@ public class Client {
                     case 5:
                         System.out.println("Exiting....");
                         return;
+                    /* Main author: Elga Jerusha Henry*/
                     case 6:
-                        System.out.println("Exiting.....");
-                        return;
+                        out.println("exit");
+                        System.out.println("Exiting the client and server. Goodbye!");
+                        System.exit(0);
+                        break;
                     default:
                         System.out.println("Invalid choice. Please enter a number between 1 to 6.");
                 }
