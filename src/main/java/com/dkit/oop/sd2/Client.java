@@ -55,7 +55,12 @@ public class Client {
                         System.out.println("Exiting..");
                         return;
                     case 4:
-                        System.out.println("Exiting...");
+                        System.out.println("Enter the entity ID to delete: ");
+                        entityId = scanner.nextInt();
+                        scanner.nextLine();
+                        out.println("deleteEntityById "+entityId);
+                        response = in.readLine();
+                        System.out.println("Player successfully deleted");
                         return;
                     case 5:
                         System.out.println("Exiting....");

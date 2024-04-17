@@ -58,6 +58,19 @@ public class Server {
                 String allPlayers = jsonConverter.playersListToJson(allPlayersList);
                 out.println(allPlayers);
             }
+            /** Main author: Annita Mila Chuenglin */
+            else if(request[0].equals("deleteEntityById")) {
+                int deleteId = Integer.parseInt(request[1]);
+                Player deletedPlayer = playerDao.deletePlayer(deleteId);
+                if(deletedPlayer != null)
+                {
+                    out.println("Player with ID" + deleteId +" deleted");
+                }
+                else
+                {
+                    out.println("Player with ID " + deleteId + " not found.");
+                }
+            }
             else {
                 out.println("Unrecognised input");
             }
