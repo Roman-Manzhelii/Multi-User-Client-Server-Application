@@ -8,13 +8,17 @@ import java.util.List;
 /** Main author: Roman Manzhelii
  */
 public class JsonConverter {
-    private final Gson gson = new Gson();
+    private static final Gson gson = new Gson();
 
     public String playersListToJson(List<Player> list) {
         return gson.toJson(list);
     }
 
-    public String playerToJson(Player p) {
+    public static String playerToJson(Player p) {
         return gson.toJson(p);
+    }
+
+    public static Player jsonToPlayer(String json) {
+        return gson.fromJson(json, Player.class);
     }
 }

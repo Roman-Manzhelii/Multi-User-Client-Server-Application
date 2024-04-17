@@ -1,4 +1,7 @@
 package com.dkit.oop.sd2;
+import com.dkit.oop.sd2.DTOs.Player;
+import com.google.gson.JsonElement;
+
 import java.io.*;
 import java.net.Socket;
 import java.net.UnknownHostException;
@@ -51,9 +54,28 @@ public class Client {
                         response = in.readLine();
                         System.out.println("In client: The server response was : " + response);
                         break;
+                    /** Main author: Elga Jerusha Henry */
                     case 3:
-                        System.out.println("Exiting..");
-                        return;
+                        System.out.println("Enter the details of the entity:");
+                        System.out.print("Name: ");
+                        String name = scanner.nextLine();
+                        System.out.print("Age: ");
+                        int age = scanner.nextInt();
+                        scanner.nextLine();
+                        System.out.print("Team: ");
+                        String team = scanner.nextLine();
+                        System.out.print("Position: ");
+                        String position = scanner.nextLine();
+
+                        Player newPlayer = new Player(name, age, team, position);
+
+                        String jsonRequest = JsonConverter.playerToJson(newPlayer);
+
+                        out.println("addEntity " + jsonRequest);
+                        String addResponse = in.readLine();
+                        System.out.println("Server response: " + addResponse);
+                        break;
+
                     case 4:
                         System.out.println("Enter the entity ID to delete: ");
                         entityId = scanner.nextInt();

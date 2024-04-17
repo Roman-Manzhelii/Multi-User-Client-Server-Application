@@ -71,6 +71,18 @@ public class Server {
                     out.println("Player with ID " + deleteId + " not found.");
                 }
             }
+            /* Main author: Elga Jerusha Henry */
+            else if (request[0].equals("addEntity")) {
+                String jsonRequest = request[1];
+                Player newPlayer = JsonConverter.jsonToPlayer(jsonRequest);
+                Player addedPlayer = playerDao.insertPlayer(newPlayer);
+                if (addedPlayer != null) {
+                    String jsonResponse = JsonConverter.playerToJson(addedPlayer);
+                    out.println(jsonResponse);
+                } else {
+                    out.println("Failed to add the entity");
+                }
+            }
             else {
                 out.println("Unrecognised input");
             }
