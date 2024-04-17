@@ -12,7 +12,8 @@ import java.util.List;
 import java.util.Scanner;
 
 public class App {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws DaoException
+    {
         PlayerDaoInterface IPlayerDao = new MySqlPlayerDao();
         Scanner scanner = new Scanner(System.in);
 
@@ -23,7 +24,7 @@ public class App {
             System.out.println("3. Delete Player by ID");
             System.out.println("4. Insert a Player");
             System.out.println("5. Update a Player by ID");
-            System.out.println("6. Compare Players by Age");
+            System.out.println("6. Filter Players by Age");
             System.out.println("7. Exit");
             System.out.print("Enter choice: ");
 
@@ -140,32 +141,54 @@ public class App {
                     }
                     break;
                 case 6:
-                    // Filter players by age
-                    try {
-                        System.out.println("Enter the age to filter players: ");
-                        int ageToFilter = scanner.nextInt();
+                    System.out.println("Select an option:");
+                    System.out.println("1. Filter players above a specific age");
+                    System.out.println("2. Filter players below a specific age");
+                    int option = scanner.nextInt();
 
-                        List<Player> allPlayers = IPlayerDao.getAllPlayers();
-                        List<Player> filteredPlayers = new ArrayList<>();
+                    switch (option) {
+                        case 1:
+                            System.out.println("Enter the minimum age to filter players above: ");
+                            int minAgeToFilter = scanner.nextInt();
 
-                        for (Player player : allPlayers) {
-                            if (player.getAge() == ageToFilter) {
-                                filteredPlayers.add(player);
+                            List<Player> aboveFilteredPlayers = IPlayerDao.findPlayersUsingFilter(new PlayerAgeComparator.AboveAgeComparator(minAgeToFilter));
+                            if (aboveFilteredPlayers.isEmpty()) {
+                                System.out.println("No players found above the specified age.");
+                            } else {
+                                System.out.println("Filtered Players:");
+                                for (Player player : aboveFilteredPlayers) {
+                                    if (player.getAge() > minAgeToFilter) {
+                                        System.out.println("Player: " + player.toString());
+                                    }
+                                }
                             }
-                        }
+                            break;
 
-                        if (filteredPlayers.isEmpty()) {
-                            System.out.println("No players found with the specified age.");
-                        } else {
-                            System.out.println("Filtered Players:");
-                            for (Player player : filteredPlayers) {
-                                System.out.println("Player: " + player.toString());
+                        case 2:
+                            System.out.println("Enter the maximum age to filter players below: ");
+                            int maxAgeToFilter = scanner.nextInt();
+
+                            List<Player> belowFilteredPlayers = IPlayerDao.findPlayersUsingFilter(new PlayerAgeComparator.BelowAgeComparator(maxAgeToFilter));
+                            if (belowFilteredPlayers.isEmpty()) {
+                                System.out.println("No players found below the specified age.");
+                            } else {
+                                System.out.println("Filtered Players:");
+                                for (Player player : belowFilteredPlayers) {
+                                    if (player.getAge() < maxAgeToFilter) {
+                                        System.out.println("Player: " + player.toString());
+                                    }
+                                }
                             }
-                        }
-                    } catch (DaoException e) {
-                        e.printStackTrace();
+                            break;
+
+                        default:
+                            System.out.println("Invalid option selected");
+                            break;
                     }
                     break;
+
+
+
 
 
 

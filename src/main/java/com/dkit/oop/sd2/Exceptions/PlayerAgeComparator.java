@@ -3,22 +3,30 @@ package com.dkit.oop.sd2.Exceptions;
 import java.util.Comparator;
 import com.dkit.oop.sd2.DTOs.Player;
 
-public class PlayerAgeComparator implements Comparator<Player> {
-    private int ageToFilter;
+public class PlayerAgeComparator {
+    public static class AboveAgeComparator implements Comparator<Player> {
+        private int minAgeToFilter;
 
-    public PlayerAgeComparator(int ageToFilter) {
-        this.ageToFilter = ageToFilter;
+        public AboveAgeComparator(int minAgeToFilter) {
+            this.minAgeToFilter = minAgeToFilter;
+        }
+
+        @Override
+        public int compare(Player player1, Player player2) {
+            return Integer.compare(player1.getAge(), player2.getAge());
+        }
     }
 
-    @Override
-    public int compare(Player p1, Player p2) {
-        // Compare the age of the players with the specified age
-        if (p1.getAge() == ageToFilter && p2.getAge() == ageToFilter) {
-            return 0;
-        } else if (p1.getAge() < ageToFilter && p2.getAge() < ageToFilter) {
-            return -1;
-        } else {
-            return 1;
+    public static class BelowAgeComparator implements Comparator<Player> {
+        private int maxAgeToFilter;
+
+        public BelowAgeComparator(int maxAgeToFilter) {
+            this.maxAgeToFilter = maxAgeToFilter;
+        }
+
+        @Override
+        public int compare(Player player1, Player player2) {
+            return Integer.compare(player2.getAge(), player1.getAge());
         }
     }
 }
