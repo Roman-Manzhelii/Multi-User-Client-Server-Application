@@ -4,6 +4,7 @@ import java.net.Socket;
 import java.net.UnknownHostException;
 import java.util.Scanner;
 
+/** Main author: Annita Mila Chuenglin */
 public class Client {
     public static void main(String[] args) {
         Client client = new Client();
@@ -22,8 +23,12 @@ public class Client {
 
             while(true){
                 System.out.println("====== Menu ======");
-                System.out.println("1. Send 'hello server'");
-                System.out.println("2. Exit");
+                System.out.println("1. Display Entity by Id");
+                System.out.println("2. Display All Entities");
+                System.out.println("3. Add an Entity");
+                System.out.println("4. Delete an Entity by Id");
+                System.out.println("5. Get Images List");
+                System.out.println("6. Exit");
                 System.out.print("Enter option: ");
 
                 int option = scanner.nextInt();
@@ -31,15 +36,30 @@ public class Client {
 
                 switch(option) {
                     case 1:
-                        out.println("hello server");
+                        System.out.println("Enter the entity ID to display: ");
+                        int entityId = scanner.nextInt();
+                        scanner.nextLine();
+                        out.println("displayEntityById "+entityId);
                         String response = in.readLine();
                         System.out.println("In client: The server response was : " + response);
                         break;
                     case 2:
+                        System.out.println("Exiting.");
+                        return;
+                    case 3:
+                        System.out.println("Exiting..");
+                        return;
+                    case 4:
                         System.out.println("Exiting...");
                         return;
+                    case 5:
+                        System.out.println("Exiting....");
+                        return;
+                    case 6:
+                        System.out.println("Exiting.....");
+                        return;
                     default:
-                        System.out.println("Invalid choice. Please enter 1 or 2.");
+                        System.out.println("Invalid choice. Please enter a number between 1 to 6.");
                 }
             }
 

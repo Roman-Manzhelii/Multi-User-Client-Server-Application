@@ -5,16 +5,31 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
+import com.dkit.oop.sd2.DAOs.MySqlPlayerDao;
+import com.dkit.oop.sd2.DTOs.Player;
+import com.dkit.oop.sd2.Exceptions.DaoException;
 
+/** Main author: Annita Mila Chuenglin */
 public class Server {
     final int PORT_NUMBER = 8888;
+    private final MySqlPlayerDao playerDao;
+    private final JsonConverter jsonConverter;
+
+    public Server() {
+        this.playerDao = new MySqlPlayerDao();
+        this.jsonConverter = new JsonConverter();
+    }
 
     public static void main(String[] args) {
         Server server = new Server();
-        server.start();
+        try {
+            server.start();
+        } catch (DaoException e) {
+            e.printStackTrace();
+        }
     }
 
-    public void start() {
+    public void start() throws DaoException {
         try (ServerSocket serverSocket = new ServerSocket(PORT_NUMBER);
              Socket clientSocket = serverSocket.accept();
              PrintWriter out = new PrintWriter(clientSocket.getOutputStream(), true);
@@ -27,10 +42,14 @@ public class Server {
             System.out.println("The Server has received this message from a client: " + message);
             System.out.println("The server is replying to the client.");
 
-            if ("hello server".equals(message)) {
-                out.println("hello client");
+            String[] request = message.split(" ");
+            if(request[0].equals("displayEntityById")) {
+                int entityId = Integer.parseInt(request[1]);
+                Player player = playerDao.findPlayerById(entityId);
+                String jsonPlayer = jsonConverter.playerToJson(player);
+                out.println(jsonPlayer);
             } else {
-                out.println("unrecognised greeting");
+                out.println("Unrecognised input");
             }
 
             System.out.println("The Server is finished, and is exiting. Goodbye!");
@@ -39,5 +58,4 @@ public class Server {
             System.out.println(exception);
         }
     }
-
 }
