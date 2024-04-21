@@ -50,15 +50,28 @@ public class Client {
                         int entityId = scanner.nextInt();
                         scanner.nextLine();
                         out.println("displayEntityById "+entityId);
-                        String response = in.readLine();
-                        System.out.println("In client: The server response was : " + response);
+                        String jsonResponse = in.readLine();
+                        //System.out.println("In client: The server response was : " + jsonResponse);
+                        Player player = new Gson().fromJson(jsonResponse, Player.class);
+
+                        if (player != null) {
+                            System.out.println(player);
+                        } else {
+                            System.out.println("Player not found.");
+                        }
                         break;
                     /** Main author: Annita Mila Chuenglin */
                     case 2:
                         System.out.println("Displaying all entities.");
                         out.println("displayAllEntities");
-                        response = in.readLine();
-                        System.out.println("In client: The server response was : " + response);
+                        jsonResponse = in.readLine();
+                        //System.out.println("In client: The server response was : " + jsonResponse);
+                        Type entityType = new TypeToken<List<Player>>() {}.getType();
+                        List<Player> entityList = new Gson().fromJson(jsonResponse, entityType);
+                        System.out.println("List of Entities:");
+                        for (Player playerprint : entityList) {
+                            System.out.println(playerprint);
+                        }
                         break;
                     /** Main author: Elga Jerusha Henry */
                     case 3:
@@ -88,14 +101,14 @@ public class Client {
                         entityId = scanner.nextInt();
                         scanner.nextLine();
                         out.println("deleteEntityById "+entityId);
-                        response = in.readLine();
+                        String response = in.readLine();
                         System.out.println("Player successfully deleted");
                         break;
                     /** Main author: Roman Manzhelii*/
                     case 5:
                         out.println("getImagesList");
                         Gson gson = new Gson();
-                        String jsonResponse = in.readLine();
+                        jsonResponse = in.readLine();
 
                         //System.out.println("Raw JSON response from server: " + jsonResponse);
 
